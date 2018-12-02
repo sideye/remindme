@@ -38,7 +38,8 @@
         <activity android:name=".createPatient" />
         <activity android:name=".createTask" />
         <activity android:name=".checklist" />
-        <activity android:name=".userProfile"></activity>
+        <activity android:name=".userProfile" />
+        <activity android:name=".task"></activity>
     </application>
 
 </manifest>

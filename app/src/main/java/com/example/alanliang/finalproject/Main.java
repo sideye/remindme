@@ -10,9 +10,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -31,7 +34,6 @@ import java.util.ArrayList;
 
 public class Main extends AppCompatActivity {
     String username;
-    JSONObject patient;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,27 +49,51 @@ public class Main extends AppCompatActivity {
         } catch (JSONException e) {
 
         }
-        try {
-            this.patient = (JSONObject) patientList.get(0);
-        } catch (JSONException e) {
 
-        }
         System.out.println(patientList);
 
+        JSONObject[] patientArray = new JSONObject[patientList.length()];
+        for (int i = 0; i < patientArray.length; i++) {
+            try {
+                patientArray[i] = (JSONObject) patientList.get(i);
+            } catch (JSONException e) {
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
+            }
+        }
+
+//        ListAdapter patientAdapter = new ArrayAdapter<JSONObject>(this, android.R.layout.simple_list_item_1, patientArray);
+//        ListView patientListView = findViewById(R.id.patientList);
+//        patientListView.setAdapter(patientAdapter);
+//        patientListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(Main.this, createPatient.class);
-//                Bundle b = new Bundle();
-//                b.putString("user", Main.this.username);
-//                intent.putExtras(b);
-//                startActivity(intent);
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                JSONObject patient = (JSONObject) parent.getItemAtPosition(position);
+//                click(patient);
 //            }
 //        });
 
+        ListAdapter adapter = new patientAdapter(this, patientArray);
+        ListView patientListView = (ListView) findViewById(R.id.patientList);
 
+        patientListView.setAdapter(adapter);
+        patientListView.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        JSONObject patient = (JSONObject) parent.getItemAtPosition(position);
+                        click(patient);
+                    }
+                }
+        );
+    }
+
+    void click(JSONObject patient) {
+        Intent intent = new Intent(Main.this, checklist.class);
+        Bundle b = new Bundle();
+        b.putString("user", Main.this.username);
+        b.putString("patient", patient.toString());
+        intent.putExtras(b);
+        startActivity(intent);
     }
 
     public void onClick(View view) {
@@ -114,14 +140,6 @@ public class Main extends AppCompatActivity {
         queue.add(loginJSON);
     }
 
-    void launchList(View view) {
-        Intent intent = new Intent(Main.this, checklist.class);
-        Bundle b = new Bundle();
-        b.putString("user", Main.this.username);
-        b.putString("patient", patient.toString());
-        intent.putExtras(b);
-        startActivity(intent);
-    }
 
     void downloadPatients(String username) {
         System.out.println("Downloading patients");
