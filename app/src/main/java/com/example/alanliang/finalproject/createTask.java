@@ -31,7 +31,7 @@ public class createTask extends AppCompatActivity {
     void create (View view) {
         EditText taskNameInput = (EditText) findViewById(R.id.taskName);
         EditText dueDateInput = (EditText) findViewById(R.id.due);
-        EditText notesInput = (EditText) findViewById(R.id.notes);
+        EditText notesInput = (EditText) findViewById(R.id.bio);
 
         final String taskName = taskNameInput.getText().toString();
         final String dueDate = dueDateInput.getText().toString();

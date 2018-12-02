@@ -42,4 +42,13 @@ public class checklist extends AppCompatActivity {
         startActivity(intent);
     }
 
+    void info(View view) {
+        Intent intent = new Intent(checklist.this, userProfile.class);
+        Bundle b = new Bundle();
+        b.putString("user", checklist.this.username);
+        b.putString("patient", checklist.this.patient.toString());
+        intent.putExtras(b);
+        startActivity(intent);
+    }
+
 }

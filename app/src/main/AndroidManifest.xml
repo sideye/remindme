@@ -37,7 +37,8 @@
         <activity android:name=".createAccount" />
         <activity android:name=".createPatient" />
         <activity android:name=".createTask" />
-        <activity android:name=".checklist"></activity>
+        <activity android:name=".checklist" />
+        <activity android:name=".userProfile"></activity>
     </application>
 
 </manifest>
